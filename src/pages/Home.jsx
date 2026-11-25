@@ -2,6 +2,7 @@ import logo from "../../images/iteration-1-images/logo.svg";
 import Categories from "../components/Categories";
 import Campaigns from "../components/Campaigns";
 import Products from "../components/Products";
+import Footer from "../components/Footer";
 
 export default function Home() {
   return (
@@ -16,9 +17,11 @@ export default function Home() {
      <button className="btn">ACIKTIM</button>
         
     </header> 
+    
     <Categories />
     <Campaigns />
-    <Products/>
+    <Products />
+    <Footer />
     </>
   ) ;
 }

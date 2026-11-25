@@ -253,6 +253,84 @@
   font-weight: 700;
 }
 
+.footer {
+  background-color: var(--footer-bg);
+  color: white;
+  padding: 48px 24px;
+  font-family: var(--font-main);
+}
+
+.footer-icerik {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 48px;
+  align-items: flex-start;
+  margin: 0 auto;
+}
+
+.iletisim-satiri {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  overflow-wrap: anywhere;
+}
+
+.footer-ikon {
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.footer-menu {
+  width: 220px;
+  flex-shrink: 0;
+}
+
+.footer-menu ul {
+  list-style-type: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
+}
+
+.footer-instagram .instagram-gorseller {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.footer-alt {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #333333;
+  padding: 24px 0 0 0;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.twitter-ikon {
+  width: 20px;
+}
+
+.footer-logo {
+  max-width: 100%;
+  height: auto;
+}
+
+.footer-iletisim,
+.footer-instagram {
+  width: 100%;
+}
+
+.instagram-gorseller img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 @media (min-width: 480px) {
   .home-hero h1 {
     font-size: 48px;
@@ -281,5 +359,23 @@
   .kategori-menu {
     display: flex;
     flex-wrap: wrap;
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer {
+    padding: 48px;
+  }
+
+  .footer-icerik {
+    flex-direction: row;
+    width: 100%;
+    gap: 32px;
+  }
+
+  .footer-iletisim,
+  .footer-instagram {
+    flex: 1;
+    min-width: 0;
   }
 }
