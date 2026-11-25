@@ -33,13 +33,14 @@
   margin: 0;
 }
 
-.home-hero button {
+.home-hero .btn {
   background-color: var(--yellow);
   color: var(--dark-gray);
   font-family: var(--font-main);
   border: none;
   border-radius: 50px;
   padding: 12px 36px;
+  text-decoration: none;
 }
 
 .kategoriler {

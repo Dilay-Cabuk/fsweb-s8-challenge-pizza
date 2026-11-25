@@ -3,6 +3,7 @@ import Categories from "../components/Categories";
 import Campaigns from "../components/Campaigns";
 import Products from "../components/Products";
 import Footer from "../components/Footer";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
@@ -14,7 +15,7 @@ export default function Home() {
       <h1>
         KOD ACIKTIRIR <br/> PİZZA DOYURUR
       </h1>
-     <button className="btn">ACIKTIM</button>
+     <Link className="btn" to="/order">ACIKTIM</Link>
         
     </header> 
     
