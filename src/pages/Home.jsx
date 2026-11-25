@@ -1,6 +1,7 @@
 import logo from "../../images/iteration-1-images/logo.svg";
 import Categories from "../components/Categories";
 import Campaigns from "../components/Campaigns";
+import Products from "../components/Products";
 
 export default function Home() {
   return (
@@ -17,6 +18,7 @@ export default function Home() {
     </header> 
     <Categories />
     <Campaigns />
+    <Products/>
     </>
   ) ;
 }

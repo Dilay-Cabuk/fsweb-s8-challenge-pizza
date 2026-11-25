@@ -1,45 +1,45 @@
 .home-hero {
-    background-color: var(--red);
-    display:flex;
-    flex-direction: column;
-    align-items:center;
-    background-image: url("../images/iteration-1-images/home-banner.png");
-    min-height: 600px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding-top: 40px;
-    gap: 1rem;
+  background-color: var(--red);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url("../images/iteration-1-images/home-banner.png");
+  min-height: 600px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding-top: 40px;
+  gap: 1rem;
 }
 
-.home-hero > img {
+.home-hero>img {
   max-width: 90%;
   height: auto;
 }
 
 .home-hero p {
-    color: var(--yellow);
-    font-family: var(--font-accent);
-    font-size: 20px;
-    margin: 0;
+  color: var(--yellow);
+  font-family: var(--font-accent);
+  font-size: 20px;
+  margin: 0;
 }
 
 .home-hero h1 {
-    color: white;
-    font-family: var(--font-main);
-    font-size: 36px;
-    font-weight: 300;
-    text-align: center;
-    margin:0;
+  color: white;
+  font-family: var(--font-main);
+  font-size: 36px;
+  font-weight: 300;
+  text-align: center;
+  margin: 0;
 }
 
 .home-hero button {
-    background-color: var(--yellow);
-    color: var(--dark-gray);
-    font-family: var(--font-main);
-    border: none;
-    border-radius: 50px;
-    padding: 12px 36px;
+  background-color: var(--yellow);
+  color: var(--dark-gray);
+  font-family: var(--font-main);
+  border: none;
+  border-radius: 50px;
+  padding: 12px 36px;
 }
 
 .kategoriler {
@@ -142,6 +142,117 @@
   border: none;
 }
 
+/* =========================
+   ÜRÜNLER BÖLÜMÜ
+========================= */
+
+.urunler {
+  background-color: var(--beige);
+  padding: 48px 16px;
+}
+
+.urunler .urunler-ust-baslik {
+  font-family: var(--font-accent);
+  font-size: 28px;
+  color: var(--red);
+}
+
+.urunler-alt-baslik {
+  font-family: var(--font-main);
+  font-size: 36px;
+  color: var(--dark-gray);
+  font-weight: 600;
+}
+
+.urunler .urunler-ust-baslik,
+.urunler h2 {
+  text-align: center;
+}
+
+/* Ürün kategori menüsü */
+
+.kategori-menu {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 32px 0;
+}
+
+.kategori-menu span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background-color: white;
+  border-radius: 50px;
+  padding: 12px 8px;
+  text-decoration: none;
+  color: var(--dark-gray);
+  font-family: var(--font-main);
+}
+
+.urun-kategori-ikon {
+  width: 40px;
+  height: 40px;
+}
+
+.kategori-menu span.aktif-kategori {
+  background-color: var(--dark-gray);
+  color: white;
+}
+
+/* Ürün kartları */
+
+.urun-kartlari {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  gap: 20px;
+  margin: auto;
+}
+
+.urun-kart {
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px 20px;
+}
+
+.urun-kart-foto {
+  width: 100%;
+  object-fit: cover;
+  height: auto;
+}
+
+.urun-kart h3 {
+  font-family: var(--font-main);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--dark-gray);
+  margin-top: 12px;
+  margin-bottom: 16px;
+}
+
+.urun-bilgileri {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  color: var(--light-gray);
+  font-family: var(--font-main);
+}
+
+.urun-bilgileri p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.urun-bilgileri .fiyat {
+  color: var(--dark-gray);
+  font-weight: 700;
+}
+
 @media (min-width: 480px) {
   .home-hero h1 {
     font-size: 48px;
@@ -156,5 +267,19 @@
 
   .kart-1 {
     grid-row: span 2;
+  }
+
+  .urunler {
+    padding: 48px;
+  }
+
+  .urun-kartlari {
+    grid-template-columns: repeat(3, 1fr);
+    width: 90%;
+  }
+
+  .kategori-menu {
+    display: flex;
+    flex-wrap: wrap;
   }
 }
