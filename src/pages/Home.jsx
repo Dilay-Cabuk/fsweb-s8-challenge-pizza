@@ -1,7 +1,9 @@
 import logo from "../../images/iteration-1-images/logo.svg";
+import Categories from "../components/Categories";
 
 export default function Home() {
   return (
+    <>
     <header className="home-hero">
         
       <img src={logo} alt="Teknolojik Yemekler logosu"/>
@@ -12,5 +14,7 @@ export default function Home() {
      <button className="btn">ACIKTIM</button>
         
     </header> 
+    <Categories />
+    </>
   ) ;
 }

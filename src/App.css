@@ -42,6 +42,33 @@
     padding: 12px 36px;
 }
 
+.kategoriler {
+  background-color: white;
+  padding: 16px 0;
+  font-family: var(--font-main);
+}
+
+.alt-kategoriler {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 0 16px;
+}
+
+.alt-kategoriler span {
+  display: flex;
+  align-items: center;
+  color: var(--dark-gray);
+  text-decoration: none;
+  gap: 8px;
+}
+
+.kategori-ikon {
+  width: 42px;
+  height: 42px;
+}
+
 @media (min-width: 480px) {
   .home-hero h1 {
     font-size: 48px;
