@@ -69,8 +69,92 @@
   height: 42px;
 }
 
+.kampanyalar {
+  width: 80%;
+  display: grid;
+  margin: 0 auto;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  gap: 8px;
+}
+
+.kart {
+  border-radius: 12px;
+  padding: 24px;
+  font-family: var(--font-main);
+}
+
+.kart-1 {
+  background: url("../images/iteration-2-images/cta/kart-1.png") center / cover;
+  font-size: 20px;
+}
+
+.kart-1 h2 {
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 48px;
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.kart-1 p {
+  margin-bottom: 16px;
+  margin-top: 0;
+  font-size: 16px;
+}
+
+.kart-2 {
+  background: url("../images/iteration-2-images/cta/kart-2.png") center / cover;
+  font-size: 16px;
+}
+
+.kart-2 h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.kart-3 {
+  background: url("../images/iteration-2-images/cta/kart-3.png") center / cover;
+  font-size: 16px;
+}
+
+.kart-3 h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 20px;
+}
+
+.kart-3 .kelime {
+  color: var(--red);
+}
+
+.kart-1,
+.kart-2 {
+  color: white;
+}
+
+.kampanyalar .btn {
+  font-size: 12px;
+  background-color: white;
+  color: var(--red);
+  border-radius: 20px;
+  padding: 10px 20px;
+  border: none;
+}
+
 @media (min-width: 480px) {
   .home-hero h1 {
     font-size: 48px;
+  }
+}
+
+@media (min-width: 768px) {
+  .kampanyalar {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 150px 150px;
+  }
+
+  .kart-1 {
+    grid-row: span 2;
   }
 }
