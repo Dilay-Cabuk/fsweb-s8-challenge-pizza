@@ -2,23 +2,33 @@ import { useState } from "react";
 
 
 const ingredientOptions = [
-    { value: "mantar", label: "Mantar" },
+    { value: "pepperoni", label: "Pepperoni" },
+    { value: "domates", label: "Domates" },
+    { value: "biber", label: "Biber" },
+    { value: "sosis", label: "Sosis" },
     { value: "misir", label: "Mısır" },
     { value: "sucuk", label: "Sucuk" },
-    { value: "zeytin", label: "Zeytin" },
+    { value: "kanada-jambonu", label: "Kanada Jambonu" },
+    { value: "ananas", label: "Ananas" },
+    { value: "tavuk-izgara", label: "Tavuk Izgara" },
+    { value: "jalepeno", label: "Jalepeno" },
+    { value: "kabak", label: "Kabak" },
+    { value: "sogan", label: "Soğan" },
+    { value: "sarimsak", label: "Sarımsak" },
 ];
-
 
 export default function Order() {
 
     const [name, setName] = useState("");
     const [size, setSize] = useState("");
     const [ingredients, setIngredients] = useState([]);
-    const [note,setNote] = useState("");
+    const [note, setNote] = useState("");
+    const [dough, setDough] = useState("");
+    const [quantity, setQuantity] = useState(1);
     const isIngredientsValid = ingredients.length >= 4 && ingredients.length <= 10;
     const isNameValid = name.trim().length >= 3;
-    const isFormValid = isNameValid && size !== "" && isIngredientsValid;
-
+    const isDoughValid = dough !== "";
+    const isFormValid = isNameValid && size !== "" && isIngredientsValid && isDoughValid;
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -26,7 +36,7 @@ export default function Order() {
         if (isFormValid === false) {
             return;
         }
-        console.log({ name, size, ingredients, note});
+        console.log({ name, size, ingredients, note });
     }
 
     function handleIngredientChange(event) {
@@ -85,6 +95,22 @@ export default function Order() {
 
                 </fieldset>
 
+
+                <label htmlFor="dough">Hamur seç
+                    <select
+                        name="dough"
+                        id="dough"
+                        value={dough}
+                        onChange={(event) => setDough(event.target.value)}
+                    >
+                        <option value="">Hamur Kalınlığı Seçiniz</option>
+                        <option value="ince">ince</option>
+                        <option value="normal">normal</option>
+                        <option value="kalin">kalin</option>
+                    </select>
+                </label>
+
+
                 <fieldset>
                     <legend>Ek Malzemeler</legend>
                     {ingredientOptions.map((option) => (
@@ -120,10 +146,27 @@ export default function Order() {
                 {name.length > 0 && !isNameValid && (
                     <p>Adınız en az 3 karakter olmalı.</p>
                 )}
-                 
-                  <label htmlFor="note">Sipariş Notu
+
+                <label htmlFor="note">Sipariş Notu
                     <textarea name="note" id="note" value={note} onChange={(event) => setNote(event.target.value)}></textarea>
                 </label>
+
+                <div>
+                    <button
+                        type="button"
+                        onClick={() => setQuantity(prev => prev > 1 ? prev - 1 : prev)}
+                    >
+                        -
+                    </button>
+                    <span>{quantity}</span>
+                    <button
+                        type="button"
+                        onClick={() => setQuantity(prev => prev + 1)}
+                    >
+                        +
+                    </button>
+
+                </div>
 
                 <button type="submit" disabled={!isFormValid}>
                     Sipariş Ver
