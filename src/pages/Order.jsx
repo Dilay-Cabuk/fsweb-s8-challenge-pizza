@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 
 const ingredientOptions = [
@@ -22,7 +23,7 @@ const basePrice = 85.50;
 const ingredientPrice = 5;
 
 
-export default function Order() {
+export default function Order({ setOrder }) {
 
     const [name, setName] = useState("");
     const [size, setSize] = useState("");
@@ -30,21 +31,13 @@ export default function Order() {
     const [note, setNote] = useState("");
     const [dough, setDough] = useState("");
     const [quantity, setQuantity] = useState(1);
+    const history = useHistory();
     const isIngredientsValid = ingredients.length >= 4 && ingredients.length <= 10;
     const isNameValid = name.trim().length >= 3;
     const isDoughValid = dough !== "";
     const isFormValid = isNameValid && size !== "" && isIngredientsValid && isDoughValid;
     const ingredientsTotal = ingredients.length * ingredientPrice;
     const totalPrice = (basePrice + ingredientsTotal) * quantity;
-
-    function handleSubmit(event) {
-        event.preventDefault();
-
-        if (isFormValid === false) {
-            return;
-        }
-        console.log({ name, size, ingredients, note });
-    }
 
     function handleIngredientChange(event) {
         const value = event.target.value;
@@ -81,7 +74,9 @@ export default function Order() {
             }
         })
         .then((response) => {
+            setOrder(response.data)
           console.log(response.data);
+          history.push("/success");
         })
         .catch((error) => {
           console.log(error);
