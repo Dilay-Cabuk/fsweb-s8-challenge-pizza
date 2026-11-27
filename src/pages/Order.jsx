@@ -17,6 +17,10 @@ const ingredientOptions = [
     { value: "sarimsak", label: "Sarımsak" },
 ];
 
+const basePrice = 85.50;
+const ingredientPrice = 5;
+
+
 export default function Order() {
 
     const [name, setName] = useState("");
@@ -29,6 +33,8 @@ export default function Order() {
     const isNameValid = name.trim().length >= 3;
     const isDoughValid = dough !== "";
     const isFormValid = isNameValid && size !== "" && isIngredientsValid && isDoughValid;
+    const ingredientsTotal = ingredients.length * ingredientPrice;
+    const totalPrice = (basePrice + ingredientsTotal) * quantity;
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -165,6 +171,14 @@ export default function Order() {
                     >
                         +
                     </button>
+
+                </div>
+
+                <div>
+
+                  <h3>Sipariş Toplamı</h3>
+                  <p>Seçimler {ingredientsTotal.toFixed(2)} ₺</p>
+                  <p>Toplam {totalPrice.toFixed(2)} ₺</p>
 
                 </div>
 
