@@ -14,10 +14,16 @@ const ingredientOptions = [
     { value: "kanada-jambonu", label: "Kanada Jambonu" },
     { value: "ananas", label: "Ananas" },
     { value: "tavuk-izgara", label: "Tavuk Izgara" },
-    { value: "jalepeno", label: "Jalepeno" },
+    { value: "jalapeno", label: "Jalapeno" },
     { value: "kabak", label: "Kabak" },
     { value: "sogan", label: "Soğan" },
     { value: "sarimsak", label: "Sarımsak" },
+];
+
+const sizeOptions = [
+    { id: "size-small", value: "Küçük" },
+    { id: "size-medium", value: "Orta" },
+    { id: "size-large", value: "Büyük" },
 ];
 
 const basePrice = 85.50;
@@ -34,12 +40,15 @@ export default function Order({ setOrder }) {
     const [dough, setDough] = useState("");
     const [quantity, setQuantity] = useState(1);
     const [errorMessage, setErrorMessage] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const history = useHistory();
 
     // FORM VALIDATION
 
-    const isIngredientsValid = ingredients.length >= 4 && ingredients.length <= 10;
+    const isIngredientsValid =
+        ingredients.length >= 4 && ingredients.length <= 10;
+
     const isNameValid = name.trim().length >= 3;
     const isDoughValid = dough !== "";
 
@@ -51,14 +60,20 @@ export default function Order({ setOrder }) {
 
     // PRICE CALCULATIONS
 
-    const ingredientsTotal = ingredients.length * ingredientPrice;
-    const totalPrice = (basePrice + ingredientsTotal) * quantity;
+    const ingredientsTotal =
+        ingredients.length * ingredientPrice * quantity;
+
+    const totalPrice =
+        basePrice * quantity + ingredientsTotal;
+
+    const selectedIngredientLabels = ingredientOptions
+        .filter((option) => ingredients.includes(option.value))
+        .map((option) => option.label);
 
     // INGREDIENT CHANGE
 
     function handleIngredientChange(event) {
-        const value = event.target.value;
-        const checked = event.target.checked;
+        const { value, checked } = event.target;
 
         if (checked) {
             setIngredients((prev) => [...prev, value]);
@@ -74,23 +89,23 @@ export default function Order({ setOrder }) {
     function handleSubmit(event) {
         event.preventDefault();
 
-        if (!isFormValid) {
+        if (!isFormValid || isSubmitting) {
             return;
         }
 
         setErrorMessage("");
+        setIsSubmitting(true);
 
         const orderData = {
-            name,
+            name: name.trim(),
             size,
             dough,
-            ingredients,
-            note,
+            ingredients: selectedIngredientLabels,
+            note: note.trim(),
             quantity,
+            ingredientsTotal,
             totalPrice
         };
-
-        console.log(orderData);
 
         axios.post("https://reqres.in/api/pizza", orderData, {
             headers: {
@@ -98,13 +113,18 @@ export default function Order({ setOrder }) {
             }
         })
             .then((response) => {
-                setOrder(response.data);
                 console.log(response.data);
+                setOrder(response.data);
                 history.push("/success");
             })
             .catch((error) => {
-                setErrorMessage("Sipariş oluşturulamadı. Lütfen tekrar deneyiniz.");
-                console.log(error);
+                setErrorMessage(
+                    "Sipariş oluşturulamadı. Lütfen tekrar deneyiniz."
+                );
+                console.error(error);
+            })
+            .finally(() => {
+                setIsSubmitting(false);
             });
     }
 
@@ -120,10 +140,18 @@ export default function Order({ setOrder }) {
                     className="order-logo"
                 />
 
-                <nav className="order-navigation">
+                <nav
+                    className="order-navigation"
+                    aria-label="Sayfa navigasyonu"
+                >
                     <Link to="/">Anasayfa</Link>
                     <span> / </span>
-                    <span className="active-page">Sipariş Oluştur</span>
+                    <span
+                        className="active-page"
+                        aria-current="page"
+                    >
+                        Sipariş Oluştur
+                    </span>
                 </nav>
             </header>
 
@@ -161,65 +189,61 @@ export default function Order({ setOrder }) {
 
             {/* ORDER FORM */}
 
-            <form onSubmit={handleSubmit} className="order-form">
+            <form
+                onSubmit={handleSubmit}
+                className="order-form"
+                aria-busy={isSubmitting}
+            >
 
                 {/* SIZE & DOUGH */}
 
                 <div className="order-options">
 
                     <fieldset className="order-size">
-                        <legend>Boyut Seç</legend>
+                        <legend>Boyut Seç *</legend>
 
-                        <label htmlFor="size-small" className="order-size-option">
-                            <input
-                                type="radio"
-                                name="size"
-                                id="size-small"
-                                value="Küçük"
-                                checked={size === "Küçük"}
-                                onChange={(event) => setSize(event.target.value)}
-                            />
-                            Küçük
-                        </label>
+                        {sizeOptions.map((option) => (
+                            <label
+                                key={option.id}
+                                htmlFor={option.id}
+                                className="order-size-option"
+                            >
+                                <input
+                                    type="radio"
+                                    name="size"
+                                    id={option.id}
+                                    value={option.value}
+                                    checked={size === option.value}
+                                    onChange={(event) =>
+                                        setSize(event.target.value)
+                                    }
+                                    required
+                                />
 
-                        <label htmlFor="size-medium" className="order-size-option">
-                            <input
-                                type="radio"
-                                name="size"
-                                id="size-medium"
-                                value="Orta"
-                                checked={size === "Orta"}
-                                onChange={(event) => setSize(event.target.value)}
-                            />
-                            Orta
-                        </label>
-
-                        <label htmlFor="size-large" className="order-size-option">
-                            <input
-                                type="radio"
-                                name="size"
-                                id="size-large"
-                                value="Büyük"
-                                checked={size === "Büyük"}
-                                onChange={(event) => setSize(event.target.value)}
-                            />
-                            Büyük
-                        </label>
+                                {option.value}
+                            </label>
+                        ))}
                     </fieldset>
 
                     <label htmlFor="dough" className="order-dough">
-                        Hamur Seç
+                        Hamur Seç *
 
                         <select
                             name="dough"
                             id="dough"
                             value={dough}
-                            onChange={(event) => setDough(event.target.value)}
+                            onChange={(event) =>
+                                setDough(event.target.value)
+                            }
+                            required
                         >
-                            <option value="">Hamur Kalınlığı Seçiniz</option>
-                            <option value="ince">İnce</option>
-                            <option value="normal">Normal</option>
-                            <option value="kalin">Kalın</option>
+                            <option value="">
+                                Hamur Kalınlığı Seçiniz
+                            </option>
+
+                            <option value="İnce">İnce</option>
+                            <option value="Normal">Normal</option>
+                            <option value="Kalın">Kalın</option>
                         </select>
                     </label>
 
@@ -228,9 +252,12 @@ export default function Order({ setOrder }) {
                 {/* EXTRA INGREDIENTS */}
 
                 <fieldset className="order-ingredients">
-                    <legend>Ek Malzemeler</legend>
+                    <legend>Ek Malzemeler *</legend>
 
-                    <p className="ingredients-description">
+                    <p
+                        className="ingredients-description"
+                        id="ingredients-description"
+                    >
                         En az 4, en fazla 10 malzeme seçebilirsiniz.
                         5₺ / Malzeme
                     </p>
@@ -249,19 +276,24 @@ export default function Order({ setOrder }) {
                                     id={"ingredient-" + option.value}
                                     checked={ingredients.includes(option.value)}
                                     onChange={handleIngredientChange}
+                                    aria-describedby="ingredients-description"
                                 />
+
                                 {option.label}
                             </label>
                         ))}
                     </div>
                 </fieldset>
 
-                <p className="selected-ingredients">
-                    Seçilenler: {ingredients.join(", ")}
+                <p
+                    className="selected-ingredients"
+                    aria-live="polite"
+                >
+                    Seçilenler: {selectedIngredientLabels.join(", ")}
                 </p>
 
                 {ingredients.length > 0 && !isIngredientsValid && (
-                    <p className="order-error">
+                    <p className="order-error" role="alert">
                         En az 4, en fazla 10 malzeme seçmelisiniz.
                     </p>
                 )}
@@ -269,19 +301,25 @@ export default function Order({ setOrder }) {
                 {/* CUSTOMER NAME */}
 
                 <label htmlFor="name" className="order-name">
-                    Adınız
+                    Adınız *
 
                     <input
                         type="text"
                         id="name"
                         name="name"
                         value={name}
-                        onChange={(event) => setName(event.target.value)}
+                        onChange={(event) =>
+                            setName(event.target.value)
+                        }
+                        required
+                        minLength={3}
+                        autoComplete="name"
+                        aria-invalid={name.length > 0 && !isNameValid}
                     />
                 </label>
 
                 {name.length > 0 && !isNameValid && (
-                    <p className="order-error">
+                    <p className="order-error" role="alert">
                         Adınız en az 3 karakter olmalı.
                     </p>
                 )}
@@ -295,7 +333,9 @@ export default function Order({ setOrder }) {
                         name="note"
                         id="note"
                         value={note}
-                        onChange={(event) => setNote(event.target.value)}
+                        onChange={(event) =>
+                            setNote(event.target.value)
+                        }
                     />
                 </label>
 
@@ -306,16 +346,24 @@ export default function Order({ setOrder }) {
                     <div className="order-quantity">
                         <button
                             type="button"
-                            onClick={() => setQuantity(prev => prev > 1 ? prev - 1 : prev)}
+                            aria-label="Sipariş adedini azalt"
+                            onClick={() =>
+                                setQuantity((prev) =>
+                                    prev > 1 ? prev - 1 : prev
+                                )
+                            }
                         >
                             -
                         </button>
 
-                        <span>{quantity}</span>
+                        <span aria-live="polite">{quantity}</span>
 
                         <button
                             type="button"
-                            onClick={() => setQuantity(prev => prev + 1)}
+                            aria-label="Sipariş adedini artır"
+                            onClick={() =>
+                                setQuantity((prev) => prev + 1)
+                            }
                         >
                             +
                         </button>
@@ -323,32 +371,41 @@ export default function Order({ setOrder }) {
 
                     <div className="order-checkout">
 
-                        <div className="order-summary">
+                        <div
+                            className="order-summary"
+                            aria-live="polite"
+                        >
                             <h3>Sipariş Toplamı</h3>
 
                             <p>
                                 <span>Seçimler</span>
-                                <span>{ingredientsTotal.toFixed(2)} ₺</span>
+                                <span>
+                                    {ingredientsTotal.toFixed(2)} ₺
+                                </span>
                             </p>
 
                             <p className="order-total">
                                 <span>Toplam</span>
-                                <span>{totalPrice.toFixed(2)} ₺</span>
+                                <span>
+                                    {totalPrice.toFixed(2)} ₺
+                                </span>
                             </p>
                         </div>
 
                         {errorMessage.length > 0 && (
-                            <p className="order-error">
+                            <p className="order-error" role="alert">
                                 {errorMessage}
                             </p>
                         )}
 
                         <button
                             type="submit"
-                            disabled={!isFormValid}
+                            disabled={!isFormValid || isSubmitting}
                             className="order-submit"
                         >
-                            Sipariş Ver
+                            {isSubmitting
+                                ? "Sipariş Gönderiliyor..."
+                                : "Sipariş Ver"}
                         </button>
 
                     </div>

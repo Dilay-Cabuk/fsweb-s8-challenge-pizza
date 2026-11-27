@@ -51,7 +51,7 @@ export default function Success({ order }) {
 
         <p>
           <span>Seçimler</span>
-          <span>{(order.ingredients.length * 5).toFixed(2)} ₺</span>
+          <span>{order.ingredientsTotal.toFixed(2)} ₺</span>
         </p>
 
         <p>
