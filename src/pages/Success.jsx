@@ -1,31 +1,64 @@
+import { Redirect } from "react-router-dom";
 import logo from "../../images/iteration-1-images/logo.svg";
 
-function Success({ order }) {
+export default function Success({ order }) {
+  if (order === null) {
+    return <Redirect to="/order" />;
+  }
 
-    if (order === null) {
-        return "Henüz bir sipariş oluşturulmadı.";
-    }
+  return (
+    <main className="success-page">
+      <img
+        src={logo}
+        alt="Teknolojik Yemekler"
+        className="success-logo"
+      />
 
-    return (
-        <main className="success-page">
-            <img src={logo} alt="Teknolojik Yemekler" className="success-logo" />
-            <h1>Siparişiniz Alındı!</h1>
-            <section className="success-order-details" >
-                <p>Müşteri adı: {order.name}</p>
-                <p>Pizza boyutu: {order.size}</p>
-                <p>Hamur kalınlığı: {order.dough}</p>
-                <p>	Ek malzemeler: {order.ingredients.join(", ")}</p>
-                <p>Sipariş notu: {order.note || "Belirtilmedi"}  </p>
-                <p>	Adet: {order.quantity}</p>
+      <p className="success-subtitle">lezzetin yolda</p>
 
-            </section>
-            <div className="success-order-summary">
-                <h2>Sipariş Toplamı</h2>
-                <p>Seçimler: {(order.ingredients.length * 5).toFixed(2)} ₺</p>
-                <p>	Toplam fiyat: {order.totalPrice.toFixed(2)} ₺</p>
-            </div>
-        </main>
-    );
+      <h1>SİPARİŞ ALINDI</h1>
+
+      <section className="success-order-details">
+        <h2>Position Absolute Acı Pizza</h2>
+
+        <p>
+          Müşteri adı: <strong>{order.name}</strong>
+        </p>
+
+        <p>
+          Boyut: <strong>{order.size}</strong>
+        </p>
+
+        <p>
+          Hamur: <strong>{order.dough}</strong>
+        </p>
+
+        <p>
+          Ek Malzemeler: <strong>{order.ingredients.join(", ")}</strong>
+        </p>
+
+        <p>
+          Sipariş Notu: <strong>{order.note || "Belirtilmedi"}</strong>
+        </p>
+
+        <p>
+          Adet: <strong>{order.quantity}</strong>
+        </p>
+      </section>
+
+      <section className="success-order-summary">
+        <h2>Sipariş Toplamı</h2>
+
+        <p>
+          <span>Seçimler</span>
+          <span>{(order.ingredients.length * 5).toFixed(2)} ₺</span>
+        </p>
+
+        <p>
+          <span>Toplam</span>
+          <span>{order.totalPrice.toFixed(2)} ₺</span>
+        </p>
+      </section>
+    </main>
+  );
 }
-
-export default Success;
