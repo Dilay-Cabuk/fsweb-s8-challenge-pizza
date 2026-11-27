@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 
 
 const ingredientOptions = [
@@ -56,6 +57,35 @@ export default function Order() {
                 prev.filter((item) => item !== value)
             );
         }
+    }
+
+    function handleSubmit (event) {
+      event.preventDefault();
+        if(!isFormValid) {
+            return;
+        }
+        
+        const orderData = {
+            name,
+            size,
+            dough,
+            ingredients,
+            note,
+            quantity,
+            totalPrice 
+        }
+        console.log(orderData);
+        axios.post("https://reqres.in/api/pizza", orderData, {
+            headers: {
+                "x-api-key": import.meta.env.VITE_REQRES_API_KEY
+            }
+        })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
 
 
