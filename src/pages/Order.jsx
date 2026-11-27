@@ -32,6 +32,7 @@ export default function Order({ setOrder }) {
     const [dough, setDough] = useState("");
     const [quantity, setQuantity] = useState(1);
     const history = useHistory();
+    const [errorMessage, setErrorMessage] = useState("");
     const isIngredientsValid = ingredients.length >= 4 && ingredients.length <= 10;
     const isNameValid = name.trim().length >= 3;
     const isDoughValid = dough !== "";
@@ -53,10 +54,13 @@ export default function Order({ setOrder }) {
     }
 
     function handleSubmit (event) {
+
       event.preventDefault();
         if(!isFormValid) {
             return;
         }
+
+        setErrorMessage("");
         
         const orderData = {
             name,
@@ -79,6 +83,7 @@ export default function Order({ setOrder }) {
           history.push("/success");
         })
         .catch((error) => {
+            setErrorMessage("Sipariş oluşturulamadı. Lütfen tekrar deneyiniz.");
           console.log(error);
         });
     }
@@ -206,6 +211,8 @@ export default function Order({ setOrder }) {
                   <p>Toplam {totalPrice.toFixed(2)} ₺</p>
 
                 </div>
+
+                 {errorMessage.length > 0 && <p>{errorMessage}</p>}
 
                 <button type="submit" disabled={!isFormValid}>
                     Sipariş Ver
